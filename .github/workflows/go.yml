@@ -1,0 +1,25 @@
+name: Go
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+      - name: Build
+        run: go build -v ./...
+      - name: Test
+        run: |
+          go test -v ./...
+          cd ./analysis/lang/ja; go test -benchmem -bench .; cd ../../..

@@ -1,0 +1,14 @@
+issues:
+  exclude-use-default: false
+
+linters:
+  presets:
+    - bugs
+    - unused
+    - format
+
+linters-settings:
+  gocyclo:
+    min-complexity: 15
+  errcheck:
+    ignore: fmt:.*,io/ioutil:^Read,^Close|^Write|^Shutdown
