@@ -7,7 +7,7 @@ Japanese language analysis plugins for the [bleve v2](https://github.com/blevese
 
 # Usage example
 
-blog: comming soon
+blog: [全文検索エンジン Bleve で日本語形態素解析をおこなう](https://zenn.dev/ikawaha/articles/20240324-5f5a051ee203c7)
 
 see. example/analyzer/main.go
 ```go
