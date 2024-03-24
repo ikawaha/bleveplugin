@@ -45,13 +45,11 @@ func run(args []string) error {
 	dm := bleve.NewDocumentMapping()
 	im.AddDocumentMapping("book", dm)
 	author := bleve.NewTextFieldMapping()
-	author.Name = "author"
 	author.Analyzer = "ja"
-	dm.AddFieldMapping(author)
+	dm.AddFieldMappingsAt("author", author)
 	body := bleve.NewTextFieldMapping()
-	body.Name = "text"
 	body.Analyzer = "ja"
-	dm.AddFieldMapping(body)
+	dm.AddFieldMappingsAt("text", body)
 
 	// indexer
 	index, err := bleve.NewMemOnly(im)
@@ -73,12 +71,11 @@ func run(args []string) error {
 			log.Printf("SKIP: failed to unmarshal doc: %v, %s", err, doc)
 			continue
 		}
-		id := data["id"]
-		if err := index.Index(id, doc); err != nil {
+		if err := index.Index("id", doc); err != nil {
 			return fmt.Errorf("error indexing document: %w", err)
 		}
 		// 表示
-		fmt.Printf("indexed document with id:%s\n", id)
+		fmt.Printf("indexed document with id:%s\n", data["id"])
 		//for _, v := range doc.Fields {
 		//	fmt.Printf("\t%s: %s\n", v.Name(), v.Value())
 		//}
