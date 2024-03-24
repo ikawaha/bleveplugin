@@ -8,6 +8,7 @@ import (
 
 	"github.com/blevesearch/bleve/v2"
 	"github.com/blevesearch/bleve/v2/analysis/analyzer/custom"
+	"github.com/blevesearch/bleve/v2/analysis/analyzer/keyword"
 	"github.com/blevesearch/bleve/v2/analysis/token/lowercase"
 	"github.com/ikawaha/bleveplugin/analysis/lang/ja"
 )
@@ -21,7 +22,9 @@ func main() {
 }
 
 func run(args []string) error {
+	// index mapping
 	im := bleve.NewIndexMapping()
+	im.TypeField = "type"
 	if err := im.AddCustomTokenizer("ja", map[string]any{
 		"type":      ja.Name,
 		"dict":      ja.DictIPA,
@@ -42,14 +45,16 @@ func run(args []string) error {
 	}
 
 	// document mapping
+	keywordFieldMapping := bleve.NewTextFieldMapping()
+	keywordFieldMapping.Analyzer = keyword.Name
+	jaTextFieldMapping := bleve.NewTextFieldMapping()
+	jaTextFieldMapping.Analyzer = "ja"
 	dm := bleve.NewDocumentMapping()
 	im.AddDocumentMapping("book", dm)
-	author := bleve.NewTextFieldMapping()
-	author.Analyzer = "ja"
-	dm.AddFieldMappingsAt("author", author)
-	body := bleve.NewTextFieldMapping()
-	body.Analyzer = "ja"
-	dm.AddFieldMappingsAt("text", body)
+	dm.AddFieldMappingsAt("type", keywordFieldMapping)
+	dm.AddFieldMappingsAt("id", jaTextFieldMapping)
+	dm.AddFieldMappingsAt("author", jaTextFieldMapping)
+	dm.AddFieldMappingsAt("text", jaTextFieldMapping)
 
 	// indexer
 	index, err := bleve.NewMemOnly(im)
@@ -59,10 +64,10 @@ func run(args []string) error {
 
 	// 対象ドキュメント
 	docs := []string{
-		`{"id": "1:赤い蝋燭と人魚", "author": "小川未明", "text": "人魚は南の方の海にばかり棲んでいるのではありません"}`,
-		`{"id": "2:吾輩は猫である", "author": "夏目漱石", "text":   "吾輩は猫である。名前はまだない"}`,
-		`{"id": "3:狐と踊れ", "author": "神林長平", "text": "踊っているのでなければ踊らされているのだろうさ"}`,
-		`{"id": "4:ダンスダンスダンス", "author": "村上春樹", "text": "音楽の鳴っている間はとにかく踊り続けるんだ。おいらの言っていることはわかるかい？"}`,
+		`{"type": "book", "id": "1:赤い蝋燭と人魚", "author": "小川未明", "text": "人魚は南の方の海にばかり棲んでいるのではありません"}`,
+		`{"type": "book", "id": "2:吾輩は猫である", "author": "夏目漱石", "text":   "吾輩は猫である。名前はまだない"}`,
+		`{"type": "book", "id": "3:狐と踊れ", "author": "神林長平", "text": "踊っているのでなければ踊らされているのだろうさ"}`,
+		`{"type": "book", "id": "4:ダンスダンスダンス", "author": "村上春樹", "text": "音楽の鳴っている間はとにかく踊り続けるんだ。おいらの言っていることはわかるかい？"}`,
 	}
 	// indexing
 	for _, doc := range docs {
@@ -71,7 +76,7 @@ func run(args []string) error {
 			log.Printf("SKIP: failed to unmarshal doc: %v, %s", err, doc)
 			continue
 		}
-		if err := index.Index("id", doc); err != nil {
+		if err := index.Index(data["id"], []byte(doc)); err != nil {
 			return fmt.Errorf("error indexing document: %w", err)
 		}
 		// 表示
@@ -80,6 +85,11 @@ func run(args []string) error {
 		//	fmt.Printf("\t%s: %s\n", v.Name(), v.Value())
 		//}
 	}
+	dc, err := index.DocCount()
+	if err != nil {
+		return fmt.Errorf("failed to count documents: %w", err)
+	}
+	fmt.Printf("doc count: %d\n --------\n", dc)
 
 	// クエリ
 	q := "踊る人形"
