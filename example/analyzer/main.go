@@ -21,11 +21,23 @@ func main() {
 	os.Exit(0)
 }
 
-func run(args []string) error {
+func run(_ []string) error {
+	// document mapping
+	keywordFieldMapping := bleve.NewTextFieldMapping()
+	keywordFieldMapping.Analyzer = keyword.Name
+	jaTextFieldMapping := bleve.NewTextFieldMapping()
+	jaTextFieldMapping.Analyzer = "ja"
+	dm := bleve.NewDocumentMapping()
+	dm.AddFieldMappingsAt("type", keywordFieldMapping)
+	dm.AddFieldMappingsAt("id", jaTextFieldMapping)
+	dm.AddFieldMappingsAt("author", jaTextFieldMapping)
+	dm.AddFieldMappingsAt("text", jaTextFieldMapping)
+
 	// index mapping
 	im := bleve.NewIndexMapping()
 	im.TypeField = "type"
-	if err := im.AddCustomTokenizer("ja", map[string]any{
+	im.AddDocumentMapping("book", dm)
+	if err := im.AddCustomTokenizer("ja_tokenizer", map[string]any{
 		"type":      ja.Name,
 		"dict":      ja.DictIPA,
 		"base_form": true,
@@ -35,7 +47,7 @@ func run(args []string) error {
 	}
 	if err := im.AddCustomAnalyzer("ja", map[string]any{
 		"type":      custom.Name,
-		"tokenizer": "ja",
+		"tokenizer": "ja_tokenizer",
 		"token_filters": []string{
 			ja.StopWordsName,
 			lowercase.Name,
@@ -44,25 +56,11 @@ func run(args []string) error {
 		return fmt.Errorf("failed to create ja analyzer: %w", err)
 	}
 
-	// document mapping
-	keywordFieldMapping := bleve.NewTextFieldMapping()
-	keywordFieldMapping.Analyzer = keyword.Name
-	jaTextFieldMapping := bleve.NewTextFieldMapping()
-	jaTextFieldMapping.Analyzer = "ja"
-	dm := bleve.NewDocumentMapping()
-	im.AddDocumentMapping("book", dm)
-	dm.AddFieldMappingsAt("type", keywordFieldMapping)
-	dm.AddFieldMappingsAt("id", jaTextFieldMapping)
-	dm.AddFieldMappingsAt("author", jaTextFieldMapping)
-	dm.AddFieldMappingsAt("text", jaTextFieldMapping)
-
-	// indexer
+	// index
 	index, err := bleve.NewMemOnly(im)
-	if err != nil {
-		return fmt.Errorf("failed to create index: %w", err)
-	}
+	defer index.Close()
 
-	// 対象ドキュメント
+	// documents
 	docs := []string{
 		`{"type": "book", "id": "1:赤い蝋燭と人魚", "author": "小川未明", "text": "人魚は南の方の海にばかり棲んでいるのではありません"}`,
 		`{"type": "book", "id": "2:吾輩は猫である", "author": "夏目漱石", "text":   "吾輩は猫である。名前はまだない"}`,
@@ -76,14 +74,11 @@ func run(args []string) error {
 			log.Printf("SKIP: failed to unmarshal doc: %v, %s", err, doc)
 			continue
 		}
-		if err := index.Index(data["id"], []byte(doc)); err != nil {
+		if err := index.Index(data["id"], data); err != nil {
 			return fmt.Errorf("error indexing document: %w", err)
 		}
-		// 表示
-		fmt.Printf("indexed document with id:%s\n", data["id"])
-		//for _, v := range doc.Fields {
-		//	fmt.Printf("\t%s: %s\n", v.Name(), v.Value())
-		//}
+		// printing ...
+		fmt.Printf("indexed document with id:%s, %s\n", data["id"], doc)
 	}
 	dc, err := index.DocCount()
 	if err != nil {
@@ -91,7 +86,7 @@ func run(args []string) error {
 	}
 	fmt.Printf("doc count: %d\n --------\n", dc)
 
-	// クエリ
+	// query
 	q := "踊る人形"
 	query := bleve.NewMatchQuery(q)
 	query.SetField("text")
@@ -103,9 +98,9 @@ func run(args []string) error {
 	if err != nil {
 		log.Fatalf("error executing search: %v", err)
 	}
-	// 検索結果
+	// search result
 	for _, v := range result.Hits {
-		fmt.Println(v.ID, v.Expl, v.Fields)
+		fmt.Println(v.ID)
 	}
 	return nil
 }
