@@ -9,6 +9,7 @@ Japanese language analysis plugins for the [bleve v2](https://github.com/blevese
 
 blog: comming soon
 
+see. example/analyzer/main.go
 ```go
 package main
 
@@ -81,12 +82,12 @@ func run(_ []string) error {
 	}
 	// indexing
 	for _, doc := range docs {
-		var data map[string]string
+		var data map[string]any
 		if err := json.Unmarshal([]byte(doc), &data); err != nil {
 			log.Printf("SKIP: failed to unmarshal doc: %v, %s", err, doc)
 			continue
 		}
-		if err := index.Index(data["id"], data); err != nil {
+		if err := index.Index(data["id"].(string), data); err != nil {
 			return fmt.Errorf("error indexing document: %w", err)
 		}
 		// printing ...
