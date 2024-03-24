@@ -16,7 +16,11 @@ import (
 	"github.com/ikawaha/kagome/v2/tokenizer"
 )
 
-const Name = "ja_kagome"
+const (
+	Name    = "ja_kagome"
+	DictIPA = "ipa"
+	DictUni = "uni"
+)
 
 func init() {
 	registry.RegisterTokenizer(Name, TokenizerConstructor)
@@ -136,9 +140,9 @@ func TokenizerConstructor(config map[string]any, cache *registry.Cache) (analysi
 		return nil, errors.New(`config requires dict, e.g. "ipa" or "uni"`)
 	}
 	switch kind {
-	case "ipa":
+	case DictIPA:
 		d = ipa.Dict()
-	case "uni":
+	case DictUni:
 		d = uni.Dict()
 	default:
 		return nil, fmt.Errorf("unsupported dictionary: %s", kind)
