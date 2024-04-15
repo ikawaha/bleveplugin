@@ -55,8 +55,8 @@ github.com/ikawaha/kagome-dict/ipa v1.0.10 h1:wk9I21yg+fKdL6HJB9WgGiyXIiu1VttumJ
 github.com/ikawaha/kagome-dict/ipa v1.0.10/go.mod h1:rbaOKrF58zhtpV2+2sVZBj0sUSp9dVKPjr660MehJbs=
 github.com/ikawaha/kagome-dict/uni v1.1.9 h1:cyKLswS8DSjUPTwsOjlC4WEqRkndUUVgiJR0lcFqZUk=
 github.com/ikawaha/kagome-dict/uni v1.1.9/go.mod h1:xg/2qumqt+/s8DhDGYGIU7a+q9ori8ymFvDBtcAVmgc=
-github.com/ikawaha/kagome/v2 v2.9.5 h1:uIkf04UWhSrcKa/f6HO0GmXFrBE3kQ1xauyP9EbgBAU=
-github.com/ikawaha/kagome/v2 v2.9.5/go.mod h1:OYzxPG9dQSalvznlcLNR8TEKpPwzKhnZszw9LLbf7e8=
+github.com/ikawaha/kagome/v2 v2.9.6 h1:4Zix6wrLeXfYVJqdhU4Vjsniw7Ata2ZJXm86Lz6LQf0=
+github.com/ikawaha/kagome/v2 v2.9.6/go.mod h1:OYzxPG9dQSalvznlcLNR8TEKpPwzKhnZszw9LLbf7e8=
 github.com/json-iterator/go v0.0.0-20171115153421-f7279a603ede h1:YrgBGwxMRK0Vq0WSCWFaZUnTsrA/PZE/xs1QZh+/edg=
 github.com/json-iterator/go v0.0.0-20171115153421-f7279a603ede/go.mod h1:+SdeFBvtyEkXs7REEP0seUULqWtbJapLOCVDaaPEHmU=
 github.com/mschoch/smat v0.2.0 h1:8imxQsjDm8yFEAVBe7azKmKSgzSkZXDuKkSq9374khM=

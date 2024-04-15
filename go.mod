@@ -7,7 +7,7 @@ require (
 	github.com/ikawaha/kagome-dict v1.0.9
 	github.com/ikawaha/kagome-dict/ipa v1.0.10
 	github.com/ikawaha/kagome-dict/uni v1.1.9
-	github.com/ikawaha/kagome/v2 v2.9.5
+	github.com/ikawaha/kagome/v2 v2.9.6
 	golang.org/x/text v0.14.0
 )
 
