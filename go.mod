@@ -4,9 +4,9 @@ go 1.21.6
 
 require (
 	github.com/blevesearch/bleve/v2 v2.4.0
-	github.com/ikawaha/kagome-dict v1.0.9
+	github.com/ikawaha/kagome-dict v1.0.10
 	github.com/ikawaha/kagome-dict/ipa v1.0.10
-	github.com/ikawaha/kagome-dict/uni v1.1.9
+	github.com/ikawaha/kagome-dict/uni v1.1.10
 	github.com/ikawaha/kagome/v2 v2.9.7
 	golang.org/x/text v0.15.0
 )
