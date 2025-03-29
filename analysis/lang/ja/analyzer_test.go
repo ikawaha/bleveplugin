@@ -125,7 +125,7 @@ func BenchmarkJapaneseAnalyzer(b *testing.B) {
 	}
 	sen := []byte("人魚は、南の方の海にばかり棲んでいるのではありません。")
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		analyzer.Analyze(sen)
 	}
 }

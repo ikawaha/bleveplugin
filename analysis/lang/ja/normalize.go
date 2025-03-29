@@ -1,6 +1,7 @@
 package ja
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -33,16 +34,16 @@ func (f UnicodeNormalizeCharFilter) Filter(input []byte) []byte {
 }
 
 // NewUnicodeNormalizeCharFilter returns a normalize char filter.
-func NewUnicodeNormalizeCharFilter(form norm.Form) analysis.CharFilter {
-	return UnicodeNormalizeCharFilter{
+func NewUnicodeNormalizeCharFilter(form norm.Form) *UnicodeNormalizeCharFilter {
+	return &UnicodeNormalizeCharFilter{
 		form: form,
 	}
 }
 
-func UnicodeNormalizeCharFilterConstructor(config map[string]any, _ *registry.Cache) (analysis.CharFilter, error) {
+func UnicodeNormalizeCharFilterConstructor(config map[string]any, _ *registry.Cache) (analysis.CharFilter, error) { //nolint:ireturn
 	formVal, ok := config["form"].(string)
 	if !ok {
-		return nil, fmt.Errorf("must specify form")
+		return nil, errors.New("must specify form")
 	}
 	form, ok := forms[strings.ToLower(formVal)]
 	if !ok {

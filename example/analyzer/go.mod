@@ -32,10 +32,10 @@ require (
 	github.com/golang/geo v0.0.0-20210211234256-740aa86cb551 // indirect
 	github.com/golang/protobuf v1.3.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
-	github.com/ikawaha/kagome-dict v1.1.0 // indirect
-	github.com/ikawaha/kagome-dict/ipa v1.2.0 // indirect
-	github.com/ikawaha/kagome-dict/uni v1.2.0 // indirect
-	github.com/ikawaha/kagome/v2 v2.10.0 // indirect
+	github.com/ikawaha/kagome-dict v1.1.2 // indirect
+	github.com/ikawaha/kagome-dict/ipa v1.2.1 // indirect
+	github.com/ikawaha/kagome-dict/uni v1.2.1 // indirect
+	github.com/ikawaha/kagome/v2 v2.10.1 // indirect
 	github.com/json-iterator/go v0.0.0-20171115153421-f7279a603ede // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect
