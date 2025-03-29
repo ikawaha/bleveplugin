@@ -119,7 +119,7 @@ func (t *JapaneseTokenizer) Tokenize(input []byte) analysis.TokenStream {
 }
 
 // NewJapaneseTokenizer returns a Japanese tokenizer.
-func NewJapaneseTokenizer(dict *dict.Dict, opts ...TokenizerOption) analysis.Tokenizer {
+func NewJapaneseTokenizer(dict *dict.Dict, opts ...TokenizerOption) *JapaneseTokenizer {
 	t, err := tokenizer.New(dict, tokenizer.OmitBosEos())
 	if err != nil {
 		panic(err)
@@ -133,7 +133,7 @@ func NewJapaneseTokenizer(dict *dict.Dict, opts ...TokenizerOption) analysis.Tok
 	return ret
 }
 
-func TokenizerConstructor(config map[string]any, cache *registry.Cache) (analysis.Tokenizer, error) {
+func TokenizerConstructor(config map[string]any, cache *registry.Cache) (analysis.Tokenizer, error) { //nolint:ireturn
 	var d *dict.Dict
 	kind, ok := config["dict"]
 	if !ok {

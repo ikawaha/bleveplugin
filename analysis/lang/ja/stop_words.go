@@ -30,7 +30,7 @@ func StopWordsTokenMapConstructor(_ map[string]any, _ *registry.Cache) (analysis
 }
 
 // StopWordsTokenFilterConstructor returns a token filter for stop words.
-func StopWordsTokenFilterConstructor(_ map[string]any, cache *registry.Cache) (analysis.TokenFilter, error) {
+func StopWordsTokenFilterConstructor(_ map[string]any, cache *registry.Cache) (analysis.TokenFilter, error) { //nolint:ireturn
 	tm, err := cache.TokenMapNamed(StopWordsName)
 	if err != nil {
 		return nil, err
