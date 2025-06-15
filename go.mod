@@ -6,7 +6,7 @@ require (
 	github.com/blevesearch/bleve/v2 v2.5.2
 	github.com/ikawaha/kagome-dict v1.1.6
 	github.com/ikawaha/kagome-dict/ipa v1.2.1
-	github.com/ikawaha/kagome-dict/uni v1.2.1
+	github.com/ikawaha/kagome-dict/uni v1.2.5
 	github.com/ikawaha/kagome/v2 v2.10.1
 	golang.org/x/text v0.23.0
 )
