@@ -1,6 +1,6 @@
 module github.com/ikawaha/bleveplugin
 
-go 1.24.1
+go 1.23.0
 
 require (
 	github.com/blevesearch/bleve/v2 v2.5.2
