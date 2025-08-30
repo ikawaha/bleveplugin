@@ -13,7 +13,9 @@ import (
 const NormalizeCharFilterName = "ja_normalize_unicode"
 
 func init() {
-	registry.RegisterCharFilter(NormalizeCharFilterName, UnicodeNormalizeCharFilterConstructor)
+	if err := registry.RegisterCharFilter(NormalizeCharFilterName, UnicodeNormalizeCharFilterConstructor); err != nil {
+		panic(err)
+	}
 }
 
 var forms = map[string]norm.Form{

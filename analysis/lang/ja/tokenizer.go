@@ -23,7 +23,9 @@ const (
 )
 
 func init() {
-	registry.RegisterTokenizer(Name, TokenizerConstructor)
+	if err := registry.RegisterTokenizer(Name, TokenizerConstructor); err != nil {
+		panic(err)
+	}
 }
 
 // TokenizerOption represents an option of the japanese tokenizer.

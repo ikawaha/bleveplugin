@@ -8,7 +8,9 @@ import (
 )
 
 func init() {
-	registry.RegisterTokenMap(StopTagsName, StopTagsTokenMapConstructor)
+	if err := registry.RegisterTokenMap(StopTagsName, StopTagsTokenMapConstructor); err != nil {
+		panic(err)
+	}
 }
 
 const StopTagsName = "stop_tags_ja"
