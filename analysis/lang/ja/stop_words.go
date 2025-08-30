@@ -9,8 +9,12 @@ import (
 )
 
 func init() {
-	registry.RegisterTokenMap(StopWordsName, StopWordsTokenMapConstructor)
-	registry.RegisterTokenFilter(StopWordsName, StopWordsTokenFilterConstructor)
+	if err := registry.RegisterTokenMap(StopWordsName, StopWordsTokenMapConstructor); err != nil {
+		panic(err)
+	}
+	if err := registry.RegisterTokenFilter(StopWordsName, StopWordsTokenFilterConstructor); err != nil {
+		panic(err)
+	}
 }
 
 // StopWordsName is the name of the stop words filter.
