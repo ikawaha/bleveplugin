@@ -1,6 +1,6 @@
 module github.com/ikawaha/bleveplugin
 
-go 1.23.0
+go 1.24.0
 
 require (
 	github.com/blevesearch/bleve/v2 v2.5.3
@@ -8,7 +8,7 @@ require (
 	github.com/ikawaha/kagome-dict/ipa v1.2.5
 	github.com/ikawaha/kagome-dict/uni v1.2.5
 	github.com/ikawaha/kagome/v2 v2.10.2
-	golang.org/x/text v0.28.0
+	golang.org/x/text v0.29.0
 )
 
 require (
